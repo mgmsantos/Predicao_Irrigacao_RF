@@ -11,6 +11,7 @@ Embora o conjunto de dados seja sintético, o fluxo de trabalho empregado segue 
 O projeto utiliza o algoritmo Random Forest para modelagem preditiva e ferramentas como Permutation Importance e SHAP para interpretação dos resultados e compreensão da contribuição de cada variável para as previsões realizadas.
 
 O pipeline de desenvolvimento do modelo pode ser visto na figura abaixo:
+
 ![pipeline do projeto](img/pipeline.png)
 
 ## Conjunto de Dados
