@@ -19,6 +19,20 @@ st.set_page_config(
     layout="centered"
 )
 
+st.markdown(
+    """
+    <style>
+    /* Altera a largura máxima do container principal do Streamlit */
+    .block-container {
+        max-width: 1000px; /* Altere aqui para a largura desejada (ex: 950px, 1100px) */
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("🌱 Predição da Necessidade de Irrigação")
 
 st.markdown("""
