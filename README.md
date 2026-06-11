@@ -61,6 +61,7 @@ Com base nisso, foram selecionadas as características preditoras listadas abaix
 - Crop_Growth_Stage
 
 A figura abaixo mostra a importância das variáveis no modelo:
+
 ![imporatancia das features selecionadas](img/feature_importances.png)
 
 ### 2. Preparação dos dados
@@ -72,6 +73,7 @@ As variáveis categóricas Mulching_Used e Crop_Growth_Stage foram transformadas
 Foram destinados 70% do dataset para o treinamento do modelo, com estratificação da variável-resposta visto que não havia balanceamento dos dados para cada categoria de necessidade de irrigação (linhas com necessidade 'High' representavam apenas 3.36% do conjunto de dados, enquanto 'Medium' 38% e 'Low', 58.64%).
 
 Uma análise exploratória foi conduzida para avaliar o efeito do hiperparâmetro `max_depth` sobre o desempenho do modelo. A partir dessa análise, observou-se que valores próximos de 6 proporcionavam um equilíbrio adequado entre capacidade de ajuste e generalização, como pode ser visto na figura abaixo:
+
 ![max_depth ideal](img/max_depth.png)
 
 ### 4. Avaliação e Interpretabilidade do Modelo
@@ -84,6 +86,7 @@ O modelo foi avaliado considerando as seguintes análises:
 - Curva de Aprendizado do Modelo (Model Learning Curve)
 
 A figura a seguir ilustra a Curva de Aprendizado do Modelo:
+
 ![model_learning_curve](img/model_learning_curve.png)
 
 A interpretabilidade do modelo foi avaliada por meio das seguintes análises:
@@ -111,6 +114,7 @@ Excelente interpretabilidade através de SHAP;
 Identificação dos principais fatores associados à necessidade de irrigação.
 
 A seguir é apresentado o SHAP Beeswarm Plot para a variável High:
+
 ![shap_value](img/shap_value.png)
 
 O SHAP Beeswarm Plot corroborou que a umidade do solo foi a feature de maior influência na necessidade de irrigação. Valores baixos de umidade contribuíram para aumentar a probabilidade da classe High, enquanto valores elevados reduziram essa probabilidade. Variáveis meteoorológicas, como temperatura do ar e precipitação acumulada, também apresentaram contribuição relevante para o modelo, reforçando a importância das condições ambientais na tomada de decisão sobre a irrigação.
