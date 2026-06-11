@@ -40,51 +40,55 @@ Informe as condições ambientais e de manejo para estimar a necessidade de irri
 """)
 
 # =============================================================================
-# ENTRADAS
+# ENTRADAS (Organizadas em Colunas)
 # =============================================================================
 
-soil_moisture = st.slider(
-    "Umidade do Solo (%)",
-    min_value=0.0,
-    max_value=100.0,
-    value=40.0
-)
+col1, col2 = st.columns(2)
 
-temperature = st.slider(
-    "Temperatura (°C)",
-    min_value=0.0,
-    max_value=50.0,
-    value=25.0
-)
+with col1:
+    soil_moisture = st.slider(
+        "Umidade do Solo (%)",
+        min_value=0.0,
+        max_value=100.0,
+        value=40.0
+    )
 
-rainfall = st.slider(
-    "Precipitação (mm)",
-    min_value=0.0,
-    max_value=300.0,
-    value=20.0
-)
+    temperature = st.slider(
+        "Temperatura (°C)",
+        min_value=0.0,
+        max_value=50.0,
+        value=25.0
+    )
 
-wind_speed = st.slider(
-    "Velocidade do Vento (km/h)",
-    min_value=0.0,
-    max_value=80.0,
-    value=10.0
-)
+    crop_stage = st.selectbox(
+        "Estágio da Cultura",
+        [
+            "Planting",
+            "Vegetative",
+            "Flowering",
+            "Harvesting"
+        ]
+    )
 
-crop_stage = st.selectbox(
-    "Estágio da Cultura",
-    [
-        "Planting",
-        "Vegetative",
-        "Flowering",
-        "Harvesting"
-    ]
-)
+with col2:
+    rainfall = st.slider(
+        "Precipitação (mm)",
+        min_value=0.0,
+        max_value=300.0,
+        value=20.0
+    )
 
-mulching = st.selectbox(
-    "Uso de Mulching",
-    ["No", "Yes"]
-)
+    wind_speed = st.slider(
+        "Velocidade do Vento (km/h)",
+        min_value=0.0,
+        max_value=80.0,
+        value=10.0
+    )
+
+    mulching = st.selectbox(
+        "Uso de Mulching",
+        ["No", "Yes"]
+    )
 
 # =============================================================================
 # PREPARAÇÃO DOS DADOS
