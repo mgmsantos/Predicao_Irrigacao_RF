@@ -10,10 +10,11 @@ from sklearn.metrics import confusion_matrix, classification_report, roc_auc_sco
 from sklearn.inspection import permutation_importance
 import shap
 
-
+# %%
 dados_irrigacao = pd.read_csv(r"C:\Users\migue\Downloads\archive\irrigation_prediction.csv")
 dados_irrigacao.shape # 10 mil linhas e 20 colunas
 
+# %%
 # --- SELEÇÃO DE FEATURES E PREPARAÇÃO ---
 # Excelente decisão agronômica: umidade e temperatura já absorvem os efeitos das variáveis removidas
 dados_irrigacao = dados_irrigacao[[
