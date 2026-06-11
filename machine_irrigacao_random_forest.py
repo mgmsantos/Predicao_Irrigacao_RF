@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score, learning_curve
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score, learning_curve, GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score
@@ -70,7 +70,13 @@ notas_teste = []
 profundidades = range(1, 20)
 
 for depth in profundidades:
-    model = DecisionTreeClassifier(max_depth = depth, class_weight = 'balanced', random_state = 42)
+    model = RandomForestClassifier(
+        n_estimators = 100,
+        max_depth = depth,
+        class_weight = 'balanced',
+        random_state = 42,
+        n_jobs = -1
+    )
     model.fit(X_train, y_train)
     notas_treino.append(model.score(X_train, y_train))
     notas_teste.append(model.score(X_test, y_test))
@@ -92,7 +98,7 @@ plt.show()
 # Configurado com o max_depth=7 escolhido com base no platô do gráfico anterior
 random_forest = RandomForestClassifier(
     n_estimators = 100,
-    max_depth = 7,
+    max_depth = 6,
     class_weight = 'balanced',
     random_state = 42,
     n_jobs = -1 # OTIMIZAÇÃO: Usa todos os núcleos do seu processador para treinar mais rápido
