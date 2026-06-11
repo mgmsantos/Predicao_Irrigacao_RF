@@ -33,7 +33,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("🌱 Predição da Necessidade de Irrigação")
+st.title("💦🌱 Predição da Necessidade de Irrigação")
 
 st.markdown("""
 Informe as condições ambientais e de manejo para estimar a necessidade de irrigação.
