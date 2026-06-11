@@ -409,3 +409,25 @@ shap.plots.waterfall(
 )
 
 plt.show()
+
+# %%
+
+# =============================================================================
+# SALVAMENTO DO MODELO
+# =============================================================================
+
+import joblib
+
+# Salva o modelo treinado
+joblib.dump(
+    random_forest,
+    "modelo_irrigacao.pkl"
+)
+
+# Salva as colunas utilizadas no treinamento
+joblib.dump(
+    X.columns.tolist(),
+    "features.pkl"
+)
+
+print("Modelo salvo com sucesso!")
