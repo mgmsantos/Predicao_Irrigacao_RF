@@ -182,7 +182,7 @@ train_sizes, train_scores, test_scores = learning_curve(
 train_mean = train_scores.mean(axis=1)
 test_mean = test_scores.mean(axis=1)
 
-plt.figure(figsize=(8,5))
+plt.figure(figsize=(10,6))
 plt.plot(train_sizes, train_mean, marker='o', label='Treino')
 plt.plot(train_sizes, test_mean, marker='o', label='Validação')
 plt.xlabel('Número de amostras de treinamento')

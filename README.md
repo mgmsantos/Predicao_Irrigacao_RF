@@ -59,7 +59,7 @@ Com base nisso, foram selecionadas as características preditoras listadas abaix
 - Mulching_Used
 - Crop_Growth_Stage
 
-![imporatancia das features selecionadas](feature_importances.png)
+![imporatancia das features selecionadas](img/feature_importances.png)
 
 ### 2. Preparação dos dados
 A variável-resposta Irrigation_Need foi transformadas em nível de irrigação, correspondendo a 0 (Low), 1 (Medium) e High (2).
@@ -71,7 +71,7 @@ Foram destinados 70% do dataset para o treinamento do modelo, com estratificaç�
 
 Uma Random Forest foi inicialmente treinada para obter o melhor valor de ```max_depth```, o qual correspondeu a 6, em que oferencia um bom balanceamento do modelo, evitando o underfitting e overfitting.
 
-![max_depth ideal](max_depth.png)
+![max_depth ideal](img/max_depth.png)
 
 ### 4. Avaliação e Interpretabilidade do Modelo
 O modelo foi avaliado considerando as seguintes análises:
@@ -82,7 +82,7 @@ O modelo foi avaliado considerando as seguintes análises:
 - Validação Cruzada Estratificada (Stratified Cross Validation)
 - Curva de Aprendizado do Modelo (Model Learning Curve)
 
-![model_learning_curve](model_learning_curve.png)
+![model_learning_curve](img/model_learning_curve.png)
 
 
 
@@ -91,7 +91,7 @@ A interpretabilidade do modelo foi avaliada por meio das seguintes análises:
 - SHAP Beeswarm Plot
 - SHAP Waterfall Plot
 
-![shap_value](shap_value.png)
+![shap_value](img/shap_value.png)
 
 ### 5. Tecnologias
 Em todo o desenvolvimento do modelo foram utilizadas as seguinte tecnologias:
