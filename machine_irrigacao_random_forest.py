@@ -143,6 +143,31 @@ print(f"Scores: {scores}")
 print(f"Média: {scores.mean():.4f}")
 print(f"Desvio Padrão: {scores.std():.4f}")
 
+# --- PERMUTATION IMPORTANCE ---
+resultado = permutation_importance(
+    random_forest,
+    X_test,
+    y_test,
+    n_repeats = 10,
+    random_state = 42,
+    n_jobs = -1
+)
+
+df_importancia = pd.DataFrame({
+    'Variavel': X.columns,
+    'Importancia': resultado.importances_mean
+}).sort_values('Importancia', ascending=False)
+
+print("\n--- Permutation Importance ---")
+print(df_importancia)
+
+plt.figure(figsize = (10, 6))
+plt.barh(df_importancia['Variavel'],
+         df_importancia['Importancia'].sort_values(ascending = True),
+         color = 'skyblue')
+plt.title('Permutation Importance - Features')
+plt.ylabel('Features')
+
 # --- CURVA DE APRENDIZADO ---
 train_sizes, train_scores, test_scores = learning_curve(
     random_forest,
@@ -162,28 +187,10 @@ plt.plot(train_sizes, train_mean, marker='o', label='Treino')
 plt.plot(train_sizes, test_mean, marker='o', label='Validação')
 plt.xlabel('Número de amostras de treinamento')
 plt.ylabel('F1 Macro')
-plt.title('Curva de Aprendizado')
+plt.title('Model Learning Curve')
 plt.legend()
 plt.grid(True)
 plt.show()
-
-# --- PERMUTATION IMPORTANCE ---
-resultado = permutation_importance(
-    random_forest,
-    X_test,
-    y_test,
-    n_repeats = 10,
-    random_state = 42,
-    n_jobs = -1
-)
-
-df_importancia = pd.DataFrame({
-    'Variavel': X.columns,
-    'Importancia': resultado.importances_mean
-}).sort_values('Importancia', ascending=False)
-
-print("\n--- Permutation Importance ---")
-print(df_importancia)
 
 # --- ROC-AUC ---
 y_prob = random_forest.predict_proba(X_test)

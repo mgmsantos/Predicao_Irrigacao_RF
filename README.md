@@ -59,6 +59,8 @@ Com base nisso, foram selecionadas as características preditoras listadas abaix
 - Mulching_Used
 - Crop_Growth_Stage
 
+![imporatancia das features selecionadas](feature_importances.png)
+
 ### 2. Preparação dos dados
 A variável-resposta Irrigation_Need foi transformadas em nível de irrigação, correspondendo a 0 (Low), 1 (Medium) e High (2).
 
@@ -69,6 +71,8 @@ Foram destinados 70% do dataset para o treinamento do modelo, com estratificaç�
 
 Uma Random Forest foi inicialmente treinada para obter o melhor valor de ```max_depth```, o qual correspondeu a 6, em que oferencia um bom balanceamento do modelo, evitando o underfitting e overfitting.
 
+![max_depth ideal](max_depth.png)
+
 ### 4. Avaliação e Interpretabilidade do Modelo
 O modelo foi avaliado considerando as seguintes análises:
 
@@ -78,10 +82,16 @@ O modelo foi avaliado considerando as seguintes análises:
 - Validação Cruzada Estratificada (Stratified Cross Validation)
 - Curva de Aprendizado do Modelo (Model Learning Curve)
 
+![model_learning_curve](model_learning_curve.png)
+
+
+
 A interpretabilidade do modelo foi avaliada por meio das seguintes análises:
 - Permutation Importance
 - SHAP Beeswarm Plot
 - SHAP Waterfall Plot
+
+![shap_value](shap_value.png)
 
 ### 5. Tecnologias
 Em todo o desenvolvimento do modelo foram utilizadas as seguinte tecnologias:
@@ -97,8 +107,8 @@ O modelo treinando com Random Forest apresentou:
 
 Elevada capacidade de classificação entre as três classes de necessidade de irrigação
 Boa generalização entre treino e teste;
-Estabilidade na validação cruzada, com F1 Macro médio de 0.984;
-Pontuações na curva ROC-AUC consistentes (0.98);
+Estabilidade na validação cruzada, com F1 Macro médio de 0.979;
+Pontuações na curva ROC-AUC consistentes (0.999);
 Excelente interpretabilidade através de SHAP;
 Identificação dos principais fatores associados à necessidade de irrigação.
 
