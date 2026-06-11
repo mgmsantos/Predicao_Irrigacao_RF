@@ -15,7 +15,7 @@ features_treinamento = joblib.load("model/features.pkl")
 
 st.set_page_config(
     page_title="Predição de Irrigação",
-    page_icon="🌱",
+    page_icon="💦🌱",
     layout="centered"
 )
 
@@ -33,7 +33,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("💦🌱 Predição da Necessidade de Irrigação")
+st.title("Predição da Necessidade de Irrigação")
 
 st.markdown("""
 Informe as condições ambientais e de manejo para estimar a necessidade de irrigação.
