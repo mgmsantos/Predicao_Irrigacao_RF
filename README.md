@@ -10,7 +10,8 @@ Embora o conjunto de dados seja sintético, o fluxo de trabalho empregado segue 
 
 O projeto utiliza o algoritmo Random Forest para modelagem preditiva e ferramentas como Permutation Importance e SHAP para interpretação dos resultados e compreensão da contribuição de cada variável para as previsões realizadas.
 
-![pipeline do projeto](pipeline.png)
+O pipeline de desenvolvimento do modelo pode ser visto na figura abaixo:
+![pipeline do projeto](img/pipeline.png)
 
 ## Conjunto de Dados
 O dataset contêm 10000 observações e inclui as seguintes features:
@@ -59,18 +60,18 @@ Com base nisso, foram selecionadas as características preditoras listadas abaix
 - Mulching_Used
 - Crop_Growth_Stage
 
+A figura abaixo mostra a importância das variáveis no modelo:
 ![imporatancia das features selecionadas](img/feature_importances.png)
 
 ### 2. Preparação dos dados
 A variável-resposta Irrigation_Need foi transformadas em nível de irrigação, correspondendo a 0 (Low), 1 (Medium) e High (2).
 
-As variáveis categóricas Mulching_Used e Crop_Growth_Stage foram transformadas usando One-Hot-Encoding, sendo que para Mulching_Used foi usado o argumento ```drop_first = True``` para remover a redundância. Crop_Growth_Stage utilizou ```drop_first = False``` visto que não correspondia a uma variável categórica binária, e sim categórica nominal.
+As variáveis categóricas Mulching_Used e Crop_Growth_Stage foram transformadas usando One-Hot-Encoding, sendo que para Mulching_Used foi usado o argumento ```drop_first = True``` para remover a redundância. Crop_Growth_Stage utilizou ```drop_first=False``` para preservar todas as categorias do estágio fenológico, permitindo que o modelo avaliasse individualmente a contribuição de cada fase do desenvolvimento da cultura.
 
 ### 3. Desenvolvimento do modelo
 Foram destinados 70% do dataset para o treinamento do modelo, com estratificação da variável-resposta visto que não havia balanceamento dos dados para cada categoria de necessidade de irrigação (linhas com necessidade 'High' representavam apenas 3.36% do conjunto de dados, enquanto 'Medium' 38% e 'Low', 58.64%).
 
-Uma Random Forest foi inicialmente treinada para obter o melhor valor de ```max_depth```, o qual correspondeu a 6, em que oferencia um bom balanceamento do modelo, evitando o underfitting e overfitting.
-
+Uma análise exploratória foi conduzida para avaliar o efeito do hiperparâmetro `max_depth` sobre o desempenho do modelo. A partir dessa análise, observou-se que valores próximos de 6 proporcionavam um equilíbrio adequado entre capacidade de ajuste e generalização, como pode ser visto na figura abaixo:
 ![max_depth ideal](img/max_depth.png)
 
 ### 4. Avaliação e Interpretabilidade do Modelo
@@ -82,20 +83,17 @@ O modelo foi avaliado considerando as seguintes análises:
 - Validação Cruzada Estratificada (Stratified Cross Validation)
 - Curva de Aprendizado do Modelo (Model Learning Curve)
 
+A figura a seguir ilustra a Curva de Aprendizado do Modelo:
 ![model_learning_curve](img/model_learning_curve.png)
-
-
 
 A interpretabilidade do modelo foi avaliada por meio das seguintes análises:
 - Permutation Importance
 - SHAP Beeswarm Plot
 - SHAP Waterfall Plot
 
-![shap_value](img/shap_value.png)
-
 ### 5. Tecnologias
 Em todo o desenvolvimento do modelo foram utilizadas as seguinte tecnologias:
-- Python 3.14.x
+- Python 3.14
 - Scikit-Learn
 - Pandas
 - Numpy
@@ -112,7 +110,16 @@ Pontuações na curva ROC-AUC consistentes (0.999);
 Excelente interpretabilidade através de SHAP;
 Identificação dos principais fatores associados à necessidade de irrigação.
 
-Em suma, o modelo apresentou desempenho consistente nas avaliações realizadas, com boa capacidade de generalização e estabilidade durante a validação cruzada. As análises indicaram que as variáveis selecionadas foram suficientes para capturar os principais padrões associados à necessidade de irrigação, permitindo a correta classificação dos diferentes níveis de demanda hídrica, especialmente para a classe High.
+A seguir é apresentado o SHAP Beeswarm Plot para a variável High:
+![shap_value](img/shap_value.png)
+
+O SHAP Beeswarm Plot corroborou que a umidade do solo foi a feature de maior influência na necessidade de irrigação. Valores baixos de umidade contribuíram para aumentar a probabilidade da classe High, enquanto valores elevados reduziram essa probabilidade. Variáveis meteoorológicas, como temperatura do ar e precipitação acumulada, também apresentaram contribuição relevante para o modelo, reforçando a importância das condições ambientais na tomada de decisão sobre a irrigação.
+
+Com relação ao manejo da cultura, percebe-se que o uso de Mulching faz haver redução da probabilidade do modelo indicar necessidade de irrigação, visto que a cobertura permite que a água se mantenha por mais tempo do solo, diminuindoa a evaporação em situações de temperatura elevada.
+
+Por fim, observou-se que os estágios de plantio e colheita apresentaram contribuição negativa para a classe High, enquanto o estágio de florescimento contribuiu positivamente para a necessidade de irrigação. Embora o conjunto de dados seja sintético, esse comportamento é coerente com o maior consumo hídrico frequentemente observado durante fases reprodutivas das culturas.
+
+Em conjunto, os resultados demonstram que o pipeline desenvolvido foi capaz de identificar padrões relevantes associados à necessidade de irrigação e gerar previsões consistentes. Além do desempenho preditivo, as análises de interpretabilidade permitiram compreender como fatores ambientais e de manejo influenciam as decisões do modelo, tornando-o uma ferramenta útil para demonstrar aplicações de Machine Learning em Agricultura Digital.
 
 ## Limitações
 Este projeto utiliza um conjunto de dados sintético criado para fins de demonstração.
