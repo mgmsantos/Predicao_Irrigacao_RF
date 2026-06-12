@@ -50,7 +50,7 @@ with col1:
         "Umidade do Solo (%)",
         min_value=8,
         max_value=65,
-        value=40.0
+        value=40
     )
 
     temperature = st.slider(
