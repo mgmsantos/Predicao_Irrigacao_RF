@@ -1,5 +1,6 @@
 # Predição da Necessidade de Irrigação com Random Forest
 
+---
 
 ## Visão Geral
 Este projeto tem como objetivo prever a necessidade de irrigação de uma cultura agrícola (baixa, média ou alta) utilizando variáveis ambientais e de manejo por meio de um conjunto de dados sintético.
@@ -13,6 +14,8 @@ O projeto utiliza o algoritmo Random Forest para modelagem preditiva e ferrament
 O pipeline de desenvolvimento do modelo pode ser visto na figura abaixo:
 
 ![pipeline do projeto](img/pipeline.png)
+
+---
 
 ## Conjunto de Dados
 O dataset contêm 10000 observações e inclui as seguintes features:
@@ -37,6 +40,8 @@ O dataset contêm 10000 observações e inclui as seguintes features:
 - Previous_Irrigation_mm
 - Region
 - Irrigation_Need
+
+---
 
 ## Metodologia
 
@@ -104,6 +109,8 @@ Em todo o desenvolvimento do modelo foram utilizadas as seguinte tecnologias:
 - Matplotlib
 - SHAP
 
+---
+
 ## Resultados
 O modelo treinando com Random Forest apresentou:
 
@@ -126,9 +133,25 @@ Por fim, observou-se que os estágios de plantio e colheita apresentaram contrib
 
 Em conjunto, os resultados demonstram que o pipeline desenvolvido foi capaz de identificar padrões relevantes associados à necessidade de irrigação e gerar previsões consistentes. Além do desempenho preditivo, as análises de interpretabilidade permitiram compreender como fatores ambientais e de manejo influenciam as decisões do modelo, tornando-o uma ferramenta útil para demonstrar aplicações de Machine Learning em Agricultura Digital.
 
+---
+
 ## Limitações
 Este projeto utiliza um conjunto de dados sintético criado para fins de demonstração.
 
 Consequentemente, as relações entre as variáveis preditoras e a variável resposta tendem a ser mais consistentes e menos ruidosas do que aquelas observadas em sistemas agrícolas reais.
 
 Assim, os resultados obtidos devem ser interpretados como uma validação da metodologia empregada e não como uma estimativa direta do desempenho esperado em condições reais de campo.
+
+---
+
+## Conecte-se Comigo
+
+*Siga os links abaixo para saber mais sobre minha trajetória profissional e me contatar:*
+
+<div> 
+  <a href="mailto:miguel.gms31@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
+  <a href="https://www.linkedin.com/in/miguelgms31/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+  <a href="http://lattes.cnpq.br/2943203054995050" target="_blank"><img src="https://img.shields.io/badge/-Lattes-%230077B5?style=for-the-badge&logo=google-scholar&logoColor=white" target="_blank"></a>
+</div>
+
+---
