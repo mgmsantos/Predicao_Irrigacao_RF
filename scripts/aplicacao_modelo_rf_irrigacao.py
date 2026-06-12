@@ -42,6 +42,54 @@ st.markdown("""
 Informe as condições ambientais e de manejo para estimar a necessidade de irrigação utilizando um modelo Random Forest.
 """)
 
+import streamlit as st
+import pandas as pd
+import joblib
+
+# =============================================================================
+# CARREGAMENTO
+# =============================================================================
+
+modelo = joblib.load("model/modelo_irrigacao.pkl")
+features_treinamento = joblib.load("model/features.pkl")
+
+# =============================================================================
+# CONFIGURAÇÃO DA PÁGINA
+# =============================================================================
+
+st.set_page_config(
+    page_title="Predição da Necessidade de Irrigação",
+    page_icon="💦🌱",
+    layout="centered"
+)
+
+st.markdown(
+    """
+    <style>
+
+    .block-container{
+        max-width:1000px;
+        padding-top:2rem;
+        padding-bottom:2rem;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# =============================================================================
+# TÍTULO
+# =============================================================================
+
+st.title("💦🌱 Predição da Necessidade de Irrigação")
+
+st.markdown(
+"""
+Informe as condições ambientais e de manejo da cultura para estimar a necessidade de irrigação utilizando um modelo Random Forest.
+"""
+)
+
 # =============================================================================
 # ENTRADAS
 # =============================================================================
@@ -67,10 +115,10 @@ with col1:
     crop_stage = st.selectbox(
         "Estágio da Cultura",
         [
-            "Planting",
+            "Sowing",
             "Vegetative",
             "Flowering",
-            "Harvesting"
+            "Harvest"
         ]
     )
 
@@ -103,7 +151,8 @@ with col2:
 # PREPARAÇÃO DOS DADOS
 # =============================================================================
 
-# Cria exatamente as mesmas colunas utilizadas durante o treinamento
+# Cria um DataFrame contendo exatamente as mesmas colunas
+# utilizadas durante o treinamento
 
 entrada = pd.DataFrame(
     0.0,
@@ -111,32 +160,45 @@ entrada = pd.DataFrame(
     columns=features_treinamento
 )
 
-# ------------------------------
+# -----------------------------
 # Variáveis Numéricas
-# ------------------------------
+# -----------------------------
 
 entrada.loc[0, "Soil_Moisture"] = soil_moisture
 entrada.loc[0, "Temperature_C"] = temperature
 entrada.loc[0, "Rainfall_mm"] = rainfall
 entrada.loc[0, "Wind_Speed_kmh"] = wind_speed
 
-# ------------------------------
-# Crop Growth Stage
-# ------------------------------
+# -----------------------------
+# Estágio da Cultura
+# -----------------------------
 
-coluna_crop = f"Crop_Stage_{crop_stage}"
+mapa_estagios = {
+    "Sowing": "Crop_Stage_Sowing",
+    "Vegetative": "Crop_Stage_Vegetative",
+    "Flowering": "Crop_Stage_Flowering",
+    "Harvest": "Crop_Stage_Harvest"
+}
 
-if coluna_crop in entrada.columns:
-    entrada.loc[0, coluna_crop] = 1
+coluna_stage = mapa_estagios[crop_stage]
 
-# ------------------------------
+if coluna_stage in entrada.columns:
+    entrada.loc[0, coluna_stage] = 1
+
+# -----------------------------
 # Mulching
-# ------------------------------
+# -----------------------------
 
-if mulching == "Yes":
+entrada.loc[0, "Mulching_Yes"] = (
+    1 if mulching == "Yes" else 0
+)
 
-    if "Mulching_Yes" in entrada.columns:
-        entrada.loc[0, "Mulching_Yes"] = 1
+# Garante exatamente a mesma ordem das colunas utilizadas no treinamento
+
+entrada = entrada.reindex(
+    columns=features_treinamento,
+    fill_value=0
+)
 
 # =============================================================================
 # PREDIÇÃO
@@ -154,13 +216,17 @@ if st.button("Realizar Predição", use_container_width=True):
         2: "High"
     }
 
-    st.success(
-        f"### Necessidade prevista: **{classes[predicao]}**"
-    )
+    mensagens = {
+        "Low": "🟢 Baixa necessidade de irrigação",
+        "Medium": "🟡 Necessidade moderada de irrigação",
+        "High": "🔴 Alta necessidade de irrigação"
+    }
 
-    # ============================================================
-    # Probabilidades
-    # ============================================================
+    st.success(mensagens[classes[predicao]])
+
+    # ==========================================================
+    # PROBABILIDADES
+    # ==========================================================
 
     st.subheader("Probabilidades")
 
@@ -180,9 +246,43 @@ if st.button("Realizar Predição", use_container_width=True):
         use_container_width=True
     )
 
-    # ============================================================
-    # Dados enviados ao modelo
-    # ============================================================
+    # ==========================================================
+    # INTERPRETAÇÃO
+    # ==========================================================
+
+    st.subheader("Interpretação")
+
+    if predicao == 0:
+
+        st.info(
+        """
+        As condições informadas indicam elevada disponibilidade hídrica,
+        reduzindo a necessidade de irrigação neste momento.
+        """
+        )
+
+    elif predicao == 1:
+
+        st.warning(
+        """
+        As condições ambientais sugerem uma necessidade intermediária
+        de irrigação. Recomenda-se monitoramento da umidade do solo
+        antes da tomada de decisão.
+        """
+        )
+
+    else:
+
+        st.error(
+        """
+        As condições ambientais indicam elevada demanda hídrica,
+        sugerindo alta necessidade de irrigação.
+        """
+        )
+
+    # ==========================================================
+    # DADOS ENVIADOS AO MODELO
+    # ==========================================================
 
     with st.expander("Visualizar dados enviados ao modelo"):
 
