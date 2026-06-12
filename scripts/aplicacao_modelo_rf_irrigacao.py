@@ -72,17 +72,18 @@ with col1:
 
 with col2:
     rainfall = st.slider(
-        "Precipitação (mm)",
+        "Precipitação Acumulada (mm)",
         min_value=0.0,
-        max_value=300.0,
-        value=20.0
+        max_value=2500.0,
+        value=1200.0,
+        step = 10
     )
 
     wind_speed = st.slider(
         "Velocidade do Vento (km/h)",
         min_value=0.0,
-        max_value=80.0,
-        value=10.0
+        max_value=20.0,
+        value=0.5
     )
 
     mulching = st.selectbox(
