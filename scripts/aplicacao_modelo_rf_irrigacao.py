@@ -14,50 +14,6 @@ features_treinamento = joblib.load("model/features.pkl")
 # =============================================================================
 
 st.set_page_config(
-    page_title="Predição de Irrigação",
-    page_icon="💦🌱",
-    layout="centered"
-)
-
-st.markdown(
-    """
-    <style>
-    .block-container {
-        max-width: 1000px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# =============================================================================
-# TÍTULO
-# =============================================================================
-
-st.title("💦🌱 Predição da Necessidade de Irrigação")
-
-st.markdown("""
-Informe as condições ambientais e de manejo para estimar a necessidade de irrigação utilizando um modelo Random Forest.
-""")
-
-import streamlit as st
-import pandas as pd
-import joblib
-
-# =============================================================================
-# CARREGAMENTO
-# =============================================================================
-
-modelo = joblib.load("model/modelo_irrigacao.pkl")
-features_treinamento = joblib.load("model/features.pkl")
-
-# =============================================================================
-# CONFIGURAÇÃO DA PÁGINA
-# =============================================================================
-
-st.set_page_config(
     page_title="Predição da Necessidade de Irrigação",
     page_icon="💦🌱",
     layout="centered"
