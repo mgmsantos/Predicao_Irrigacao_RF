@@ -48,9 +48,9 @@ col1, col2 = st.columns(2)
 with col1:
     soil_moisture = st.slider(
         "Umidade do Solo (%)",
-        min_value=8,
-        max_value=65,
-        value=40
+        min_value=8.0,
+        max_value=65.0,
+        value=40.0
     )
 
     temperature = st.slider(
@@ -76,7 +76,7 @@ with col2:
         min_value=0.0,
         max_value=2500.0,
         value=1200.0,
-        step = 10
+        step = 10.0
     )
 
     wind_speed = st.slider(
