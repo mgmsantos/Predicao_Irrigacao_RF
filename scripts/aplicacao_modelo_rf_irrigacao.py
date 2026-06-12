@@ -68,15 +68,21 @@ with col1:
         value=25.0
     )
 
-    crop_stage = st.selectbox(
+    estagios = {
+        "Semeadura": "Sowing",
+        "Vegetativo": "Vegetative",
+        "Florescimento": "Flowering",
+        "Colheita": "Harvest"
+    }
+
+    # Usuário escolhe em português
+    crop_stage_pt = st.selectbox(
         "Estágio da Cultura",
-        [
-            "Sowing",
-            "Vegetative",
-            "Flowering",
-            "Harvest"
-        ]
+        list(estagios.keys())
     )
+
+    # Modelo recebe em inglês
+    crop_stage = estagios[crop_stage_pt]
 
 with col2:
 
