@@ -10,7 +10,7 @@ modelo = joblib.load("model/modelo_irrigacao.pkl")
 features_treinamento = joblib.load("model/features.pkl")
 
 # =============================================================================
-# CONFIGURAÇÃO
+# CONFIGURAÇÃO DA PÁGINA
 # =============================================================================
 
 st.set_page_config(
@@ -22,9 +22,8 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Altera a largura máxima do container principal do Streamlit */
     .block-container {
-        max-width: 1000px; /* Altere aqui para a largura desejada (ex: 950px, 1100px) */
+        max-width: 1000px;
         padding-top: 2rem;
         padding-bottom: 2rem;
     }
@@ -33,19 +32,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Predição da Necessidade de Irrigação")
+# =============================================================================
+# TÍTULO
+# =============================================================================
+
+st.title("💦🌱 Predição da Necessidade de Irrigação")
 
 st.markdown("""
-Informe as condições ambientais e de manejo para estimar a necessidade de irrigação.
+Informe as condições ambientais e de manejo para estimar a necessidade de irrigação utilizando um modelo Random Forest.
 """)
 
 # =============================================================================
-# ENTRADAS (Organizadas em Colunas)
+# ENTRADAS
 # =============================================================================
 
 col1, col2 = st.columns(2)
 
 with col1:
+
     soil_moisture = st.slider(
         "Umidade do Solo (%)",
         min_value=8.0,
@@ -54,7 +58,7 @@ with col1:
     )
 
     temperature = st.slider(
-        "Temperatura (°C)",
+        "Temperatura do Ar (°C)",
         min_value=0.0,
         max_value=50.0,
         value=25.0
@@ -71,69 +75,74 @@ with col1:
     )
 
 with col2:
+
     rainfall = st.slider(
         "Precipitação Acumulada (mm)",
         min_value=0.0,
         max_value=2500.0,
         value=1200.0,
-        step = 10.0
+        step=10.0
     )
 
     wind_speed = st.slider(
         "Velocidade do Vento (km/h)",
         min_value=0.0,
         max_value=20.0,
-        value=0.5
+        value=5.0
     )
 
     mulching = st.selectbox(
         "Uso de Mulching",
-        ["No", "Yes"]
+        [
+            "No",
+            "Yes"
+        ]
     )
 
 # =============================================================================
 # PREPARAÇÃO DOS DADOS
 # =============================================================================
 
-entrada = pd.DataFrame({
-    "Soil_Moisture": [soil_moisture],
-    "Temperature_C": [temperature],
-    "Rainfall_mm": [rainfall],
-    "Wind_Speed_kmh": [wind_speed]
-})
+# Cria exatamente as mesmas colunas utilizadas durante o treinamento
 
-crop_dummy = pd.get_dummies(
-    pd.Series([crop_stage]),
-    prefix="Crop_Stage"
+entrada = pd.DataFrame(
+    0.0,
+    index=[0],
+    columns=features_treinamento
 )
 
-mulching_dummy = pd.get_dummies(
-    pd.Series([mulching]),
-    prefix="Mulching",
-    drop_first=True
-)
+# ------------------------------
+# Variáveis Numéricas
+# ------------------------------
 
-entrada = pd.concat(
-    [
-        entrada,
-        crop_dummy,
-        mulching_dummy
-    ],
-    axis=1
-)
+entrada.loc[0, "Soil_Moisture"] = soil_moisture
+entrada.loc[0, "Temperature_C"] = temperature
+entrada.loc[0, "Rainfall_mm"] = rainfall
+entrada.loc[0, "Wind_Speed_kmh"] = wind_speed
 
-# garante mesmas colunas do treinamento
+# ------------------------------
+# Crop Growth Stage
+# ------------------------------
 
-entrada = entrada.reindex(
-    columns=features_treinamento,
-    fill_value=0
-)
+coluna_crop = f"Crop_Stage_{crop_stage}"
+
+if coluna_crop in entrada.columns:
+    entrada.loc[0, coluna_crop] = 1
+
+# ------------------------------
+# Mulching
+# ------------------------------
+
+if mulching == "Yes":
+
+    if "Mulching_Yes" in entrada.columns:
+        entrada.loc[0, "Mulching_Yes"] = 1
 
 # =============================================================================
 # PREDIÇÃO
 # =============================================================================
 
-if st.button("Realizar Predição"):
+if st.button("Realizar Predição", use_container_width=True):
 
     predicao = modelo.predict(entrada)[0]
 
@@ -146,8 +155,12 @@ if st.button("Realizar Predição"):
     }
 
     st.success(
-        f"Necessidade de Irrigação: {classes[predicao]}"
+        f"### Necessidade prevista: **{classes[predicao]}**"
     )
+
+    # ============================================================
+    # Probabilidades
+    # ============================================================
 
     st.subheader("Probabilidades")
 
@@ -163,5 +176,17 @@ if st.button("Realizar Predição"):
     st.dataframe(
         prob_df.style.format({
             "Probabilidade": "{:.2%}"
-        })
+        }),
+        use_container_width=True
     )
+
+    # ============================================================
+    # Dados enviados ao modelo
+    # ============================================================
+
+    with st.expander("Visualizar dados enviados ao modelo"):
+
+        st.dataframe(
+            entrada.T.rename(columns={0: "Valor"}),
+            use_container_width=True
+        )
