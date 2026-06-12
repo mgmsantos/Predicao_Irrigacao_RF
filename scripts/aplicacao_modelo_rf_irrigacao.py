@@ -104,8 +104,8 @@ with col2:
     mulching = st.selectbox(
         "Uso de Mulching",
         [
-            "No",
-            "Yes"
+            "Não",
+            "Sim"
         ]
     )
 
