@@ -49,7 +49,7 @@ with col1:
     soil_moisture = st.slider(
         "Umidade do Solo (%)",
         min_value=8,
-        max_value=65.0,
+        max_value=65,
         value=40.0
     )
 
